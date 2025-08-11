@@ -1,0 +1,5 @@
+Idea:
+
+- A chrome extension sepcifically for strava
+- When logged in to strava and looking at your own activity, the extension will introduce an Analyze button that will download the fit file of that activity, parse the activity metrics, and asks an LLM to analyze said metrics.
+- The plugin should be configurable in such a way that there is an option to pick all usual LLM provides and give the needed API key as well as locally hosted LLMs to be used for the acticity analysis
