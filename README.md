@@ -95,6 +95,13 @@ The extension extracts and analyzes:
 - Ensure you're on a Strava activity page
 - Check that it's your own activity (edit button should be visible)
 - Verify your LLM provider configuration
+- Try refreshing the page to retrigger button injection
+
+### Analyze Button Not Appearing
+- The extension only works on your own activities
+- Button injection may take a few seconds on slow connections
+- Check browser console for error messages
+- Try navigating away and back to the activity page
 
 ### API Errors
 - Check your API key is correct and has sufficient credits
@@ -149,6 +156,13 @@ For issues or questions:
 3. Ensure you have proper API keys configured
 
 ## Changelog
+
+### v1.1.0
+- Added Google Gemini AI support
+- Improved analyze button injection reliability
+- Enhanced options page with Gemini configuration
+- Fixed button placement issues on Strava pages
+- Added better error handling and retry logic
 
 ### v1.0.0
 - Initial release
