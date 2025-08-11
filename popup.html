@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strava Activity Analyzer</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="popup-container">
+        <header>
+            <h2>🔬 Strava Activity Analyzer</h2>
+        </header>
+        
+        <main>
+            <div class="status-section">
+                <div id="statusIndicator" class="status-indicator">
+                    <span class="status-icon">⚪</span>
+                    <span id="statusText">Navigate to a Strava activity page</span>
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <h3>How to use:</h3>
+                <ol>
+                    <li>Go to one of your Strava activities</li>
+                    <li>Click the "🔬 Analyze with AI" button</li>
+                    <li>Get detailed AI-powered insights!</li>
+                </ol>
+            </div>
+            
+            <div class="config-section">
+                <p>Configure your AI provider in the options page for personalized analysis.</p>
+                <button id="openOptions" class="btn btn-primary">Open Options</button>
+            </div>
+        </main>
+        
+        <footer>
+            <div class="version">v1.0</div>
+        </footer>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>

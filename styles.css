@@ -1,0 +1,148 @@
+/* Styles for Strava Activity Analyzer */
+
+.strava-analyzer-button {
+    margin-left: 8px !important;
+    background-color: #fc4c02 !important;
+    border-color: #fc4c02 !important;
+    color: white !important;
+    font-weight: 500 !important;
+}
+
+.strava-analyzer-button:hover {
+    background-color: #e0440a !important;
+    border-color: #e0440a !important;
+}
+
+.strava-analyzer-button:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+}
+
+.spinner {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Modal styles */
+.strava-analyzer-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.strava-analyzer-modal-content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-width: 800px;
+    max-height: 80vh;
+    width: 90%;
+    overflow: hidden;
+}
+
+.strava-analyzer-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    background-color: #f8f9fa;
+}
+
+.strava-analyzer-modal-header h3 {
+    margin: 0;
+    color: #fc4c02;
+    font-size: 1.25rem;
+}
+
+.strava-analyzer-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.strava-analyzer-close:hover {
+    color: #000;
+}
+
+.strava-analyzer-modal-body {
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.analysis-content {
+    line-height: 1.6;
+    color: #333;
+}
+
+.analysis-content h4 {
+    color: #fc4c02;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.analysis-content ul {
+    padding-left: 20px;
+}
+
+.analysis-content li {
+    margin-bottom: 8px;
+}
+
+.strava-analyzer-modal-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+    text-align: right;
+    background-color: #f8f9fa;
+}
+
+/* Error notification */
+.strava-analyzer-error {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #dc3545;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10001;
+    max-width: 400px;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
