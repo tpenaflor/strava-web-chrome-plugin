@@ -26,6 +26,5 @@
     "default_popup": "popup.html",
     "default_title": "Strava Activity Analyzer"
   },
-  "options_page": "options.html",
-
+  "options_page": "options.html"
 }
