@@ -17,6 +17,8 @@ class LLMClient {
                 return 'gpt-3.5-turbo';
             case 'anthropic':
                 return 'claude-3-haiku-20240307';
+            case 'gemini':
+                return 'gemini-1.5-flash';
             case 'local':
                 return 'llama2';
             default:
@@ -32,6 +34,8 @@ class LLMClient {
                 return await this.callOpenAI(prompt);
             case 'anthropic':
                 return await this.callAnthropic(prompt);
+            case 'gemini':
+                return await this.callGemini(prompt);
             case 'local':
                 return await this.callLocalLLM(prompt);
             default:
@@ -155,6 +159,40 @@ Please format your response in HTML with proper headings and bullet points for e
         } catch (error) {
             console.error('Anthropic API error:', error);
             throw new Error(`Anthropic analysis failed: ${error.message}`);
+        }
+    }
+
+    async callGemini(prompt) {
+        try {
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${this.model}:generateContent?key=${this.apiKey}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    contents: [{
+                        parts: [{
+                            text: prompt
+                        }]
+                    }],
+                    generationConfig: {
+                        temperature: this.temperature,
+                        maxOutputTokens: 2000
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(`Gemini API error: ${response.status} - ${errorData.error?.message || response.statusText}`);
+            }
+
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+
+        } catch (error) {
+            console.error('Gemini API error:', error);
+            throw new Error(`Gemini analysis failed: ${error.message}`);
         }
     }
 

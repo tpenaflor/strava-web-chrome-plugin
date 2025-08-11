@@ -33,11 +33,22 @@
             return;
         }
 
-        // Find the action buttons container
-        let buttonContainer = document.querySelector('.activity-actions') ||
-                             document.querySelector('.actions') ||
-                             document.querySelector('.btn-group') ||
-                             document.querySelector('[class*="action"]');
+        // Try multiple selectors to find the button container
+        const selectors = [
+            '.activity-actions',
+            '.actions',
+            '.btn-group',
+            '[class*="action"]',
+            '[data-testid*="action"]',
+            '.activity-header .actions',
+            '.activity-summary-container .actions'
+        ];
+        
+        let buttonContainer = null;
+        for (const selector of selectors) {
+            buttonContainer = document.querySelector(selector);
+            if (buttonContainer) break;
+        }
 
         if (!buttonContainer) {
             // Try to find any button and use its parent
@@ -50,7 +61,7 @@
         }
 
         if (!buttonContainer) {
-            console.log('Strava Analyzer: Could not find button container');
+            console.log('Strava Analyzer: Could not find button container, retrying...');
             return;
         }
 
@@ -65,6 +76,7 @@
             </span>
         `;
         analyzeButton.title = 'Download and analyze this activity with AI';
+        analyzeButton.type = 'button'; // Prevent form submission
 
         // Add click handler
         analyzeButton.addEventListener('click', handleAnalyzeClick);
@@ -173,8 +185,9 @@
             // Wait a bit for Strava's dynamic content to load
             setTimeout(injectAnalyzeButton, 1000);
             
-            // Also try again after a longer delay in case of slow loading
+            // Also try again after longer delays in case of slow loading
             setTimeout(injectAnalyzeButton, 3000);
+            setTimeout(injectAnalyzeButton, 5000);
         }
     }
 
@@ -183,6 +196,11 @@
     function checkForUrlChange() {
         if (window.location.href !== currentUrl) {
             currentUrl = window.location.href;
+            // Remove existing button if URL changed
+            const existingButton = document.getElementById('strava-analyzer-btn');
+            if (existingButton) {
+                existingButton.remove();
+            }
             initialize();
         }
     }

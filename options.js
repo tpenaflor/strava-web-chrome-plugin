@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Provider-specific config sections
     const openaiConfig = document.getElementById('openai-config');
     const anthropicConfig = document.getElementById('anthropic-config');
+    const geminiConfig = document.getElementById('gemini-config');
     const localConfig = document.getElementById('local-config');
 
     // Form elements
@@ -20,6 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const openaiModel = document.getElementById('openaiModel');
     const anthropicApiKey = document.getElementById('anthropicApiKey');
     const anthropicModel = document.getElementById('anthropicModel');
+    const geminiApiKey = document.getElementById('geminiApiKey');
+    const geminiModel = document.getElementById('geminiModel');
     const localLlmUrl = document.getElementById('localLlmUrl');
     const localModel = document.getElementById('localModel');
 
@@ -56,6 +59,9 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (result.llmProvider === 'anthropic') {
                 anthropicApiKey.value = result.apiKey || '';
                 anthropicModel.value = result.model || 'claude-3-haiku-20240307';
+            } else if (result.llmProvider === 'gemini') {
+                geminiApiKey.value = result.apiKey || '';
+                geminiModel.value = result.model || 'gemini-1.5-flash';
             } else if (result.llmProvider === 'local') {
                 localLlmUrl.value = result.localLlmUrl || 'http://localhost:11434';
                 localModel.value = result.model || 'llama2';
@@ -69,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Hide all provider configs
         openaiConfig.style.display = 'none';
         anthropicConfig.style.display = 'none';
+        geminiConfig.style.display = 'none';
         localConfig.style.display = 'none';
         
         // Show selected provider config
@@ -78,6 +85,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 break;
             case 'anthropic':
                 anthropicConfig.style.display = 'block';
+                break;
+            case 'gemini':
+                geminiConfig.style.display = 'block';
                 break;
             case 'local':
                 localConfig.style.display = 'block';
@@ -104,6 +114,10 @@ document.addEventListener('DOMContentLoaded', function() {
             case 'anthropic':
                 apiKey = anthropicApiKey.value.trim();
                 model = anthropicModel.value;
+                break;
+            case 'gemini':
+                apiKey = geminiApiKey.value.trim();
+                model = geminiModel.value;
                 break;
             case 'local':
                 localUrl = localLlmUrl.value.trim();
@@ -158,6 +172,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 config.apiKey = anthropicApiKey.value.trim();
                 config.model = anthropicModel.value;
                 break;
+            case 'gemini':
+                config.apiKey = geminiApiKey.value.trim();
+                config.model = geminiModel.value;
+                break;
             case 'local':
                 config.localUrl = localLlmUrl.value.trim();
                 config.model = localModel.value.trim();
@@ -165,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Validate configuration
-        if (provider !== 'local' && !config.apiKey) {
+        if ((provider === 'openai' || provider === 'anthropic' || provider === 'gemini') && !config.apiKey) {
             showTestResult('Please enter your API key', 'error');
             return;
         }
@@ -202,6 +220,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     break;
                 case 'anthropic':
                     response = await testAnthropic(config, testPrompt);
+                    break;
+                case 'gemini':
+                    response = await testGemini(config, testPrompt);
                     break;
                 case 'local':
                     response = await testLocalLLM(config, testPrompt);
@@ -269,6 +290,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const data = await response.json();
         return data.content[0].text;
+    }
+
+    async function testGemini(config, prompt) {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent?key=${config.apiKey}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                contents: [{
+                    parts: [{
+                        text: prompt
+                    }]
+                }],
+                generationConfig: {
+                    temperature: config.temperature,
+                    maxOutputTokens: 50
+                }
+            })
+        });
+
+        if (!response.ok) {
+            const error = await response.json().catch(() => ({}));
+            throw new Error(`Gemini API error: ${response.status} - ${error.error?.message || response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data.candidates[0].content.parts[0].text;
     }
 
     async function testLocalLLM(config, prompt) {

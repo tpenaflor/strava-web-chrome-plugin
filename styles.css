@@ -6,6 +6,10 @@
     border-color: #fc4c02 !important;
     color: white !important;
     font-weight: 500 !important;
+    position: relative !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    min-width: 120px !important;
 }
 
 .strava-analyzer-button:hover {

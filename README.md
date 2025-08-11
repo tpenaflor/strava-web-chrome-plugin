@@ -5,7 +5,7 @@ A Chrome extension that adds AI-powered analysis to your Strava activities using
 ## Features
 
 - 🔬 **AI-Powered Analysis**: Get detailed insights about your Strava activities
-- 🤖 **Multiple LLM Providers**: Support for OpenAI, Anthropic, and local LLMs
+- 🤖 **Multiple LLM Providers**: Support for OpenAI, Anthropic, Google Gemini, and local LLMs
 - 📊 **FIT File Parsing**: Extracts detailed metrics from your activity data
 - ⚡ **One-Click Analysis**: Simple button integration into Strava activity pages
 - 🔧 **Configurable**: Easy setup for different AI providers
@@ -33,6 +33,13 @@ A Chrome extension that adds AI-powered analysis to your Strava activities using
 3. Select "Anthropic (Claude)" as provider
 4. Enter your API key
 5. Choose your preferred model
+
+### Google Gemini Setup
+1. Get an API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Open the extension options
+3. Select "Google Gemini" as provider
+4. Enter your API key
+5. Choose your preferred model (Gemini 1.5 Flash recommended)
 
 ### Local LLM Setup
 1. Install a local LLM server like [Ollama](https://ollama.ai) or text-generation-webui
@@ -142,6 +149,12 @@ For issues or questions:
 3. Ensure you have proper API keys configured
 
 ## Changelog
+
+### v1.1.0
+- Added support for Google Gemini AI
+- Fixed analyze button positioning and reliability issues
+- Improved button injection logic for better Strava compatibility
+- Enhanced button styling for consistent appearance
 
 ### v1.0.0
 - Initial release
